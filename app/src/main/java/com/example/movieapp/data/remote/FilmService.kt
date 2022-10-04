@@ -1,0 +1,36 @@
+package com.example.movieapp.data.remote
+
+import com.example.movieapp.data.model.moviedetail.MovieDetail
+import com.example.movieapp.data.model.upcoming.Upcoming
+import com.example.movieapp.utils.Constants.API_KEY_QUERY
+import com.example.movieapp.utils.Constants.LANGUAGE_QUERY
+import com.example.movieapp.utils.Constants.MOVIE_ID
+import com.example.movieapp.utils.Constants.PAGE_QUERY
+import com.example.movieapp.utils.EndPoints.MOVIE_DETAIL
+import com.example.movieapp.utils.EndPoints.UPCOMING_LIST
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
+
+/**
+ * Created by M.Furkan KÜÇÜK on 4.10.2022
+ **/
+interface FilmService {
+
+    @GET(UPCOMING_LIST)
+    suspend fun getUpcomingList(
+        @Query(API_KEY_QUERY) apiKey: String,
+        @Query(LANGUAGE_QUERY) language: String,
+        @Query(
+            PAGE_QUERY
+        ) page: Int = 1
+    ): Response<Upcoming>
+
+    @GET("${MOVIE_DETAIL}/{id}")
+    suspend fun getMovieDetail(@Path("id") id:Int,
+                               @Query(API_KEY_QUERY) apiKey: String,
+                               @Query(LANGUAGE_QUERY) language: String):Response<MovieDetail>
+
+
+}
