@@ -11,6 +11,7 @@ import com.example.movieapp.common.utils.RequestHelper
 import com.example.movieapp.data.model.filmlist.FilmList
 import com.example.movieapp.data.model.genres.GenresResponse
 import com.example.movieapp.data.model.moviedetail.MovieDetail
+import com.example.movieapp.data.model.search.Search
 import com.example.movieapp.data.model.upcoming.Upcoming
 import com.example.movieapp.data.repository.FilmRepository
 import com.example.movieapp.utils.Constants.API_KEY
@@ -46,8 +47,15 @@ class FilmViewModel @Inject constructor(
     private var _movieListResponse: MutableLiveData<NetworkResult<FilmList>> = MutableLiveData()
     val movieListResponse: LiveData<NetworkResult<FilmList>> get() = _movieListResponse
 
+    private var _movieSearchResponse: MutableLiveData<NetworkResult<Search>> = MutableLiveData()
+    val movieSearchResponse: LiveData<NetworkResult<Search>> get() = _movieSearchResponse
 
-    fun clearMovieListResponse(){
+
+    fun clearMovieSearchResponse() {
+        _movieSearchResponse.value = null
+    }
+
+    fun clearMovieListResponse() {
         _movieListResponse.value = null
     }
 
@@ -63,7 +71,7 @@ class FilmViewModel @Inject constructor(
         _movieDetailResponse.value = null
     }
 
-    fun getMovieList(listId:Int) = viewModelScope.launch {
+    fun getMovieList(listId: Int) = viewModelScope.launch {
         getMovieListSafeCall(listId)
     }
 
@@ -72,7 +80,7 @@ class FilmViewModel @Inject constructor(
         if (NetworkHelper.hasInternetConnection(getApplication())) {
             try {
                 val response =
-                    filmRepository.getMovieList(listId = listId,getLocalLanguage())
+                    filmRepository.getMovieList(listId = listId, getLocalLanguage())
                 _movieListResponse.value = RequestHelper.handleResponse(response)
             } catch (e: Exception) {
                 _movieListResponse.value = NetworkResult.Error(e.message.toString())
@@ -141,6 +149,26 @@ class FilmViewModel @Inject constructor(
             }
         } else {
             _upcomingFilmResponse.value = NetworkResult.Error("Check your internet connection")
+        }
+    }
+
+    fun getMovieSearch(searchText: String) = viewModelScope.launch {
+        getMovieSearchSafeCall(searchText)
+    }
+
+    private suspend fun getMovieSearchSafeCall(searchText: String) {
+        _movieSearchResponse.value = NetworkResult.Loading(true)
+        if (NetworkHelper.hasInternetConnection(getApplication())) {
+            try {
+                val response =
+                    filmRepository.getMovieSearch(searchText = searchText, getLocalLanguage())
+                _movieSearchResponse.value = RequestHelper.handleResponse(response)
+            } catch (e: Exception) {
+                _movieSearchResponse.value = NetworkResult.Error(e.message.toString())
+                e.printStackTrace()
+            }
+        } else {
+            _movieSearchResponse.value = NetworkResult.Error("Check your internet connection")
         }
     }
 

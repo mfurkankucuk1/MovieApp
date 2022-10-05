@@ -21,4 +21,7 @@ class FilmRepository @Inject constructor(private val filmService: FilmService) {
     suspend fun getMovieList(listId: Int, language: String) =
         filmService.getMovieList(id = listId, apiKey = API_KEY, language = language)
 
+    suspend fun getMovieSearch(searchText: String, language: String) =
+        filmService.getMovieSearch(apiKey = API_KEY, language = language, query = searchText)
+
 }

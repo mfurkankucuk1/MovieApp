@@ -17,4 +17,13 @@
         android:id="@+id/filmDetailFragment"
         android:name="com.example.movieapp.ui.detail.FilmDetailFragment" />
 
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.movieapp.ui.search.SearchFragment" >
+        <action
+            android:id="@+id/searchFragment_to_filmDetailFragment"
+            app:destination="@id/filmDetailFragment" />
+
+    </fragment>
+
 </navigation>

@@ -16,6 +16,7 @@ object Constants {
     const val API_KEY_QUERY = "api_key"
     const val LANGUAGE_QUERY = "language"
     const val PAGE_QUERY = "page"
+    const val QUERY = "query"
 
     //ID
     const val ACTION_LIST_ID = 28

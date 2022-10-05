@@ -9,5 +9,6 @@ object EndPoints {
     const val MOVIE_DETAIL = "3/movie"
     const val GENRES = "3/genre/movie/list"
     const val FILM_LIST = "3/list"
+    const val MOVIE_SEARCH = "3/search/movie"
 
 }
