@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
     app:cardCornerRadius="8dp"
+    app:cardBackgroundColor="@color/text_color"
     app:cardElevation="2dp">
 
     <TextView
