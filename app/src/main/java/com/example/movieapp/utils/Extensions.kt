@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.example.movieapp.R
 
 /**
  * Created by M.Furkan KÜÇÜK on 4.10.2022
@@ -71,6 +72,7 @@ fun setTouchable(activity: Activity, setTouchable: Boolean) {
 fun ImageView.load(image: String?) {
     Glide.with(this.context)
         .load(image)
+        .placeholder(R.drawable.placeholder)
         .into(this)
 }
 
@@ -86,10 +88,10 @@ fun View.remove() {
     this.visibility = View.GONE
 }
 
-fun Fragment.customNavigate(navigationId:Int,bundle:Bundle?){
+fun Fragment.customNavigate(navigationId: Int, bundle: Bundle?) {
     bundle?.let {
-        findNavController().navigate(navigationId,it)
-    }?: run {
+        findNavController().navigate(navigationId, it)
+    } ?: run {
         findNavController().navigate(navigationId)
     }
 }

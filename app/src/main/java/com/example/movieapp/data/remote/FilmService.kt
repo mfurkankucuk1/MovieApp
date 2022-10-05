@@ -1,11 +1,14 @@
 package com.example.movieapp.data.remote
 
+import com.example.movieapp.data.model.filmlist.FilmList
+import com.example.movieapp.data.model.genres.GenresResponse
 import com.example.movieapp.data.model.moviedetail.MovieDetail
 import com.example.movieapp.data.model.upcoming.Upcoming
 import com.example.movieapp.utils.Constants.API_KEY_QUERY
 import com.example.movieapp.utils.Constants.LANGUAGE_QUERY
-import com.example.movieapp.utils.Constants.MOVIE_ID
 import com.example.movieapp.utils.Constants.PAGE_QUERY
+import com.example.movieapp.utils.EndPoints.FILM_LIST
+import com.example.movieapp.utils.EndPoints.GENRES
 import com.example.movieapp.utils.EndPoints.MOVIE_DETAIL
 import com.example.movieapp.utils.EndPoints.UPCOMING_LIST
 import retrofit2.Response
@@ -28,9 +31,26 @@ interface FilmService {
     ): Response<Upcoming>
 
     @GET("${MOVIE_DETAIL}/{id}")
-    suspend fun getMovieDetail(@Path("id") id:Int,
-                               @Query(API_KEY_QUERY) apiKey: String,
-                               @Query(LANGUAGE_QUERY) language: String):Response<MovieDetail>
+    suspend fun getMovieDetail(
+        @Path("id") id: Int,
+        @Query(API_KEY_QUERY) apiKey: String,
+        @Query(LANGUAGE_QUERY) language: String
+    ): Response<MovieDetail>
+
+
+    @GET(GENRES)
+    suspend fun getGenres(
+        @Query(API_KEY_QUERY) apiKey: String,
+        @Query(LANGUAGE_QUERY) language: String
+    ):Response<GenresResponse>
+
+    @GET("${FILM_LIST}/{id}")
+    suspend fun getMovieList(
+        @Path("id") id: Int,
+        @Query(API_KEY_QUERY) apiKey: String,
+        @Query(LANGUAGE_QUERY) language: String
+    ): Response<FilmList>
+
 
 
 }
