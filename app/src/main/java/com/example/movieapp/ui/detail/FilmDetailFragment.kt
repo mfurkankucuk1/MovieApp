@@ -11,13 +11,20 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.common.utils.NetworkResult
 import com.example.movieapp.data.model.moviedetail.MovieDetail
+import com.example.movieapp.data.model.video.Video
 import com.example.movieapp.databinding.FragmentFilmDetailBinding
 import com.example.movieapp.ui.MainActivity
 import com.example.movieapp.ui.adapter.detail.GenresAdapter
 import com.example.movieapp.utils.Constants
 import com.example.movieapp.utils.load
+import com.example.movieapp.utils.remove
+import com.example.movieapp.utils.show
 import com.example.movieapp.viewmodel.FilmViewModel
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
+
 
 /**
  * Created by M.Furkan KÜÇÜK on 4.10.2022
@@ -64,6 +71,7 @@ class FilmDetailFragment : Fragment() {
         mainActivity.hideBottomNavigation()
         movieId?.let { id ->
             filmViewModel.getMovieDetail(id)
+            filmViewModel.getMovieVideo(id)
         } ?: run {
             Toast.makeText(requireContext(), "Sorry, Unexpected Error", Toast.LENGTH_SHORT).show()
             findNavController().popBackStack()
@@ -99,6 +107,47 @@ class FilmDetailFragment : Fragment() {
                 }
             }
         }
+
+        filmViewModel.movieVideoResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is NetworkResult.Loading -> {
+                    mainActivity.showLoading()
+                }
+                is NetworkResult.Error -> {
+                    mainActivity.hideLoading()
+                }
+                is NetworkResult.Success -> {
+                    response?.data?.let { result ->
+                        handleMovieVideoResponse(result)
+                    }
+                    mainActivity.hideLoading()
+                    filmViewModel.clearMovieVideoResponse()
+                }
+            }
+        }
+
+    }
+
+    private fun handleMovieVideoResponse(result: Video) {
+        binding.apply {
+
+
+            lifecycle.addObserver(player)
+
+            player.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+                override fun onReady(youTubePlayer: YouTubePlayer) {
+                    result.results[0].key?.let {
+                        Timber.e(it)
+                        player.show()
+                        youTubePlayer.loadVideo(it, 0f)
+                    } ?: run {
+                        player.remove()
+                    }
+
+                }
+            })
+        }
+
     }
 
     private fun handleDetailResponse(data: MovieDetail) {
@@ -109,9 +158,9 @@ class FilmDetailFragment : Fragment() {
             genresAdapter.differ.submitList(data.genres)
             tvVoteCount.text = "(${data.voteCount})"
             data.voteAverage?.let {
-                ratingProduct.rating =  it.toFloat()
+                ratingProduct.rating = it.toFloat()
             } ?: run {
-                ratingProduct.rating =  0f
+                ratingProduct.rating = 0f
             }
 
         }

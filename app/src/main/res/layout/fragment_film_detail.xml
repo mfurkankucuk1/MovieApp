@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:overScrollMode="never"
-    android:fillViewport="true"
     android:layout_height="match_parent"
-    android:background="@color/movie_detail_info_background">
+    android:background="@color/movie_detail_info_background"
+    android:fillViewport="true"
+    android:overScrollMode="never">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,8 +14,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:gravity="center"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <ImageButton
@@ -29,9 +28,9 @@
 
             <View
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_height="0dp"
                 android:layout_gravity=""
-                android:layout_height="0dp"/>
+                android:layout_weight="1" />
 
 
             <RatingBar
@@ -48,13 +47,12 @@
             <TextView
                 android:id="@+id/tvVoteCount"
                 android:layout_width="wrap_content"
-                android:layout_marginRight="8dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
                 android:fontFamily="@font/alata"
-                android:textColor="@color/text_color"/>
+                android:textColor="@color/text_color" />
 
         </LinearLayout>
-
 
 
         <ImageView
@@ -81,30 +79,36 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/screen_background"/>
+                android:background="@color/screen_background" />
 
             <TextView
                 android:id="@+id/tvMovieName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
                 android:fontFamily="@font/alata"
+                android:padding="8dp"
                 android:textColor="@color/text_color"
-                android:textSize="24sp"/>
+                android:textSize="24sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/screen_background"/>
+                android:background="@color/screen_background" />
 
             <TextView
                 android:id="@+id/tvMovieDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
                 android:fontFamily="@font/alata"
+                android:padding="8dp"
                 android:textColor="@color/text_color"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
+
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/player"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
 
         </LinearLayout>

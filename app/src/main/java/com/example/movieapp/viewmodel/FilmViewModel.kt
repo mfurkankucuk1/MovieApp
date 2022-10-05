@@ -13,6 +13,7 @@ import com.example.movieapp.data.model.genres.GenresResponse
 import com.example.movieapp.data.model.moviedetail.MovieDetail
 import com.example.movieapp.data.model.search.Search
 import com.example.movieapp.data.model.upcoming.Upcoming
+import com.example.movieapp.data.model.video.Video
 import com.example.movieapp.data.repository.FilmRepository
 import com.example.movieapp.utils.Constants.API_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -50,6 +51,12 @@ class FilmViewModel @Inject constructor(
     private var _movieSearchResponse: MutableLiveData<NetworkResult<Search>> = MutableLiveData()
     val movieSearchResponse: LiveData<NetworkResult<Search>> get() = _movieSearchResponse
 
+    private var _movieVideoResponse: MutableLiveData<NetworkResult<Video>> = MutableLiveData()
+    val movieVideoResponse: LiveData<NetworkResult<Video>> get() = _movieVideoResponse
+
+    fun clearMovieVideoResponse(){
+        _movieVideoResponse.value = null
+    }
 
     fun clearMovieSearchResponse() {
         _movieSearchResponse.value = null
@@ -111,7 +118,6 @@ class FilmViewModel @Inject constructor(
         }
     }
 
-
     fun getMovieDetail(movieId: Int) = viewModelScope.launch {
         getMovieDetailSafeCall(movieId)
     }
@@ -169,6 +175,26 @@ class FilmViewModel @Inject constructor(
             }
         } else {
             _movieSearchResponse.value = NetworkResult.Error("Check your internet connection")
+        }
+    }
+
+    fun getMovieVideo(movieId: Int) = viewModelScope.launch {
+        getMovieVideoSafeCall(movieId)
+    }
+
+    private suspend fun getMovieVideoSafeCall(movieId: Int) {
+        _movieVideoResponse.value = NetworkResult.Loading(true)
+        if (NetworkHelper.hasInternetConnection(getApplication())) {
+            try {
+                val response =
+                    filmRepository.getMovieVideo(movieId, getLocalLanguage())
+                _movieVideoResponse.value = RequestHelper.handleResponse(response)
+            } catch (e: Exception) {
+                _movieVideoResponse.value = NetworkResult.Error(e.message.toString())
+                e.printStackTrace()
+            }
+        } else {
+            _movieVideoResponse.value = NetworkResult.Error("Check your internet connection")
         }
     }
 

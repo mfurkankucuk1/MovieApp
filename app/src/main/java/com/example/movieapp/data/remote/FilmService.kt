@@ -5,6 +5,7 @@ import com.example.movieapp.data.model.genres.GenresResponse
 import com.example.movieapp.data.model.moviedetail.MovieDetail
 import com.example.movieapp.data.model.search.Search
 import com.example.movieapp.data.model.upcoming.Upcoming
+import com.example.movieapp.data.model.video.Video
 import com.example.movieapp.utils.Constants.API_KEY_QUERY
 import com.example.movieapp.utils.Constants.LANGUAGE_QUERY
 import com.example.movieapp.utils.Constants.PAGE_QUERY
@@ -61,5 +62,12 @@ interface FilmService {
         @Query(QUERY) query: String
     ):Response<Search>
 
+
+    @GET("${MOVIE_DETAIL}/{id}/videos")
+    suspend fun getMovieVideo(
+        @Path("id") id: Int,
+        @Query(API_KEY_QUERY) apiKey: String,
+        @Query(LANGUAGE_QUERY) language: String
+    ): Response<Video>
 
 }
