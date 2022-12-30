@@ -8,7 +8,7 @@ object Constants {
     const val BASE_URL = "https://api.themoviedb.org/"
     const val API_KEY  = "c05c7d1f57ebcdd7552e70eb34697209"
     const val IMAGE_URL = "https://image.tmdb.org/t/p/w500"
-    const val GOOGLE_API_KEY = "AIzaSyAIE0fof0zQXI1lloJtlAHIwx-fJn2pdYM"
+    const val GOOGLE_API_KEY = "YOUR_API_KEY"
 
     //Bundle
     const val MOVIE_BUNDLE_KEY = "movie_bundle_key"
